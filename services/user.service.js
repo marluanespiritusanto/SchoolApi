@@ -1,22 +1,31 @@
-const { toDomainEntity } = require("../domain/mappers");
-const { toDbEntity } = require("../dal/mappers");
-
 class UserService {
-  constructor({ UserRepository }) {
-    this._userRepository = UserRepository;
+  constructor({ UserBusiness }) {
+    this._userBusiness = UserBusiness;
   }
 
   async getUsers() {
-    const users = await this._userRepository.getUsers();
-    // do something
+    const users = await this._userBusiness.getUsers();
+    return users;
+  }
 
-    return users.map(toDomainEntity);
+  async getUser(id) {
+    const user = await this._userBusiness.getUser(id);
+    return user;
   }
 
   async createUser(user) {
-    user = toDbEntity(user);
-    const createdUser = await this._userRepository.createUser(user);
+    const createdUser = await this._userBusiness.createUser(user);
     return createdUser;
+  }
+
+  async updateUser(id, user) {
+    const updatedUser = await this._userBusiness.updateUser(id, user);
+    return updatedUser;
+  }
+
+  async deleteUser(id) {
+    const deletedUser = await this._userBusiness.deleteUser(id);
+    return deletedUser;
   }
 }
 
